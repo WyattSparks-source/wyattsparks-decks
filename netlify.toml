@@ -1,0 +1,11 @@
+# decks.wyattsparks.com — Netlify reads this file. No build step: the site is static HTML.
+[build]
+  publish = "."
+  command = ""
+
+# Every page is unlisted. Search engines are told to stay out at the header level too.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "public, max-age=300"
