@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>SmashQueue market read</title>
+<meta name="description" content="SmashQueue solves a real problem that a growing field already works on.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== TOKENS (inlined by scripts/build_deck.py from brand-tokens.css or a project token file) ===== */
+/* == TOKENS:BEGIN == */
+/* ============================================================================
+   Wyatt Sparks: brand-tokens.css
+   Generated from brand-base.md v1.4.1 (Sept 25, 2026). Owner: Phil.
+   brand-base.md is the source of truth; this file is a consumer of it and is
+   swept in the same change list whenever the palette, type, or layout tokens
+   change (data-registry.md, THE RULE). Never edit the hex here first.
+
+   Consumers: deck-builder v2 (inlined into every Wyatt Sparks deck as the token
+   block), any skill that renders brand HTML. Field register only: decks and UI
+   never run Study Green or Oxblood (brand-base.md, Two Registers).
+   ============================================================================ */
+
+:root {
+  --token-set: "wyatt-sparks-1.4.1";
+
+  /* ---- Palette (hex canonical) --------------------------------------------- */
+  --forest: #184B45;        /* LEAD. Headlines, nav, primary fields (~25%) */
+  --forest-deep: #0F332F;   /* Depth Doctrine steps: base + deep + sheen + lift */
+  --forest-sheen: #1D5850;
+  --forest-lift: #22615A;
+  --goldenrod: #E3A82B;     /* ENERGY. Kickers, lead data series, the one figure (~10%).
+                               Type in gold on dark fields ONLY. Always flat. */
+  --cardinal: #BB0000;      /* SIGNAL. One critical highlight, <=5%, once per card.
+                               Never adjacent to Goldenrod. Never adjacent to green at scale. */
+  --lichen: #A0A69E;        /* Trim only: rules, dividers, borders. NEVER text. */
+  --slate: #6A7178;         /* The text-safe neutral: labels, captions, metadata on light ground */
+  --ink: #1E2226;           /* Body text */
+  --birch: #F7F6F2;         /* Background (~50%) */
+  --white: #FFFFFF;
+  --cobalt: #2456D6;        /* FUNCTIONAL ONLY: live hyperlinks. Never in deck copy, charts, kickers. */
+
+  /* ---- Semantic roles (what the card templates actually reference) -------- */
+  --bg: var(--birch);
+  --fg: var(--ink);
+  --heading: var(--forest);
+  --muted: var(--slate);
+  --rule: var(--lichen);
+  --accent: var(--goldenrod);
+  --signal: var(--cardinal);
+  --link: var(--cobalt);
+  --dark-field: var(--forest);           /* hero/title/close/big-number fields go dark */
+  --on-dark: var(--white);
+  --on-dark-accent: var(--goldenrod);    /* Forest 4.65:1, passes AA for >=24px and body */
+  --accent-text: var(--forest);          /* kickers on light ground: Forest (gold type never sits on light ground) */
+  --trim: color-mix(in srgb, var(--goldenrod) 28%, transparent);   /* Depth Doctrine trim frame on dark fields */
+  --trim-inner: rgba(255,255,255,.06);
+
+  /* ---- Type: all-Poppins, weights do the work ------------------------------ */
+  --font: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  --font-display: var(--font);   /* one family; project token files may name their own display face */
+  --font-mono: var(--font);      /* numbers stay Poppins; tabular-nums does the aligning */
+  --fonts-href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap";
+  --w-display: 900;  --track-display: -0.025em;   /* display, headlines, anchor numbers */
+  --w-section: 800;  --track-section: -0.015em;   /* section heads */
+  --w-emph: 600;                                  /* emphasis, buttons, links */
+  --w-lead: 500;                                  /* leads */
+  --w-body: 400;                                  /* body; never below 400 */
+
+  /* Five-step scale. clamp() keeps the phone floor at 16px and the laptop ceiling
+     inside a 10-second read. vw terms scale with the viewport, both orientations. */
+  --fs-display: clamp(2.2rem, 6.5vw, 5rem);       /* card 1 thesis, anchor number */
+  --fs-h2: clamp(1.5rem, 3.4vw, 2.6rem);          /* card headline */
+  --fs-lead: clamp(1.125rem, 1.9vw, 1.45rem);     /* the one sentence under the headline */
+  --fs-body: clamp(1rem, 1.35vw, 1.2rem);         /* body; 1rem = 16px floor */
+  --fs-small: clamp(0.875rem, 1.05vw, 1rem);      /* captions, sources, kickers */
+  --lh-display: 1.1;
+  --lh-body: 1.65;
+
+  /* ---- Layout: 8px grid ---------------------------------------------------- */
+  --space-1: 8px;  --space-2: 16px; --space-3: 24px; --space-4: 32px;
+  --space-6: 48px; --space-8: 64px; --space-12: 96px;
+  --gutter: 16px;                 /* phone side gutter, never less */
+  --content-max: 1080px;
+  --radius: 12px;
+  --card-pad: clamp(24px, 4vw, 64px);
+
+  /* ---- Depth Doctrine recipe (green is never flat) -------------------------
+     Panels alternate base and sheen, 1px white seams at 4-5%, uplight from a
+     bottom corner in the lift color, deep-color shadow from the opposite top
+     corner, 1px gold trim at ~28% inset ~1.5%, base shadow bottom 15%. */
+  --depth-panels: repeating-linear-gradient(90deg,
+      var(--forest) 0 20%, var(--forest-sheen) 20% 40%,
+      var(--forest) 40% 60%, var(--forest-sheen) 60% 80%, var(--forest) 80% 100%);
+  --depth-seams: repeating-linear-gradient(90deg,
+      transparent 0 calc(20% - 1px), rgba(255,255,255,.045) calc(20% - 1px) 20%);
+  --depth-uplight: radial-gradient(60% 70% at 8% 100%, rgba(34,97,90,.35), transparent 70%);
+  --depth-shadow: radial-gradient(55% 60% at 100% 0%, rgba(15,51,47,.5), transparent 70%);
+  --depth-base: linear-gradient(180deg, transparent 85%, rgba(0,0,0,.35) 100%);
+  --depth-field: var(--depth-base), var(--depth-shadow), var(--depth-uplight),
+                 var(--depth-seams), var(--depth-panels);
+  --depth-trim: inset 0 0 0 1px rgba(255,255,255,.06),
+                inset 0 0 0 calc(1.5% + 1px) transparent;   /* gold trim drawn by .dark::after */
+}
+
+/* ============================================================================
+   THE SIX CARD TEMPLATES (documented markup; deck-template.html carries the
+   styles that make these work). Every card is a <section class="card ..."
+   data-notes="one-line argument"> inside <main class="deck">.
+   Card counts: proposals 8-10, carousels 5-9, general by brief. Appendix cards
+   sit after the close under an appendix divider and may be dense by design.
+   ----------------------------------------------------------------------------
+
+   1. TITLE (card 1, always the thesis, Pyramid Law 1). Dark field + depth.
+   <section class="card title dark" data-notes="The whole argument in one sentence.">
+     <div class="wrap">
+       <p class="kicker">Prepared for [who] · [Month YYYY]</p>
+       <h1>[The conclusion, as a sentence they could act on]</h1>
+       <p class="lead">[One sentence: why it is true, in their numbers]</p>
+     </div>
+   </section>
+
+   2. STATEMENT (one idea, one headline, one sentence). Light ground.
+   <section class="card statement" data-notes="...">
+     <div class="wrap">
+       <p class="kicker">[Cluster label]</p>
+       <h2>[Headline: a claim, active voice, no colon]</h2>
+       <p class="lead">[The sentence that proves it]</p>
+       <p class="note">[Optional: source or caveat, small]</p>
+     </div>
+   </section>
+
+   3. THREE-CLUSTER (the Pyramid body on one card; 2-4 items, three is the rule).
+   <section class="card clusters" data-notes="...">
+     <div class="wrap">
+       <h2>[What the three add up to]</h2>
+       <div class="grid grid-3">
+         <div class="cell"><p class="kicker">01</p><h3>[Label]</h3><p>[One idea]</p></div>
+         <div class="cell"><p class="kicker">02</p><h3>[Label]</h3><p>[One idea]</p></div>
+         <div class="cell"><p class="kicker">03</p><h3>[Label]</h3><p>[One idea]</p></div>
+       </div>
+     </div>
+   </section>
+
+   4. BIG-NUMBER (the Anchor Rule card: ONE number alone, one calculation
+      sentence, one what-changes sentence. Nothing else. Dark field.)
+   <section class="card anchor dark" data-notes="The cost of inaction, in their numbers.">
+     <div class="wrap">
+       <p class="big-number">$[X]</p>
+       <p class="lead">[How it was calculated, one sentence]</p>
+       <p class="lead muted-on-dark">[What changes, one sentence]</p>
+     </div>
+   </section>
+
+   5. TABLE (rows the reader will compare; keep under 7 rows outside the appendix).
+   <section class="card table" data-notes="...">
+     <div class="wrap">
+       <h2>[What the comparison shows]</h2>
+       <div class="tblwrap"><table>
+         <thead><tr><th>[Col]</th><th>[Col]</th></tr></thead>
+         <tbody><tr><td>[..]</td><td class="num">[..]</td></tr></tbody>
+       </table></div>
+     </div>
+   </section>
+
+   6. CLOSE (the so-what: what they do now. One action. Dark field.)
+   <section class="card close dark" data-notes="The one action.">
+     <div class="wrap">
+       <p class="kicker">What happens now</p>
+       <h2>[The single next step, dated if possible]</h2>
+       <p class="lead">[One sentence on how the decision gets made]</p>
+     </div>
+   </section>
+
+   Supporting pieces (not counted as templates): .card.divider (section break,
+   also used as the "Appendix" divider with class="card divider appendix-start"),
+   .card.appendix (dense allowed: tables, two-column .grid-2 boxes, longer text),
+   .card.chart (inline SVG sized to the card, colors from the token block).
+
+   RULES THE TEMPLATES ENFORCE: Goldenrod type only on dark fields · Cardinal at
+   most once per card and never beside gold · Lichen never carries text · headlines
+   in Forest or Ink · body never below 16px on a phone · no em dashes anywhere.
+   ============================================================================ */
+
+/* == TOKENS:END == */
+
+/* ===== ENGINE (deck-builder v2, Sept 2026). Two reading modes, one markup.
+   html.slides  = landscape: one card fills the viewport, arrows/swipe/chevrons advance, #n in URL.
+   html.scroll  = portrait: the same cards stack and scroll, each sized to its content.
+   The class is set by JS from the viewport orientation (or forced with ?mode=slides|scroll). ===== */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--page-bg, var(--bg));
+  color: var(--fg);
+  font-family: var(--font);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-weight: var(--w-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img, svg { max-width: 100%; height: auto; }
+a { color: var(--link); font-weight: var(--w-emph); }
+h1, h2, h3, p { margin: 0; overflow-wrap: anywhere; }
+h1, h2 { text-wrap: balance; }
+h1, h2, h3 { color: var(--heading); font-family: var(--font-display); }
+h1 { font-size: var(--fs-display); font-weight: var(--w-display); letter-spacing: var(--track-display); line-height: var(--lh-display); }
+h2 { font-size: var(--fs-h2); font-weight: var(--w-section); letter-spacing: var(--track-section); line-height: 1.15; }
+h3 { font-size: var(--fs-lead); font-weight: var(--w-section); line-height: 1.25; }
+.lead { font-size: var(--fs-lead); font-weight: var(--w-lead); max-width: 62ch; }
+.note, .small, .src { font-size: var(--fs-small); color: var(--muted); max-width: 66ch; }
+.kicker { font-size: var(--fs-small); font-weight: var(--w-emph); letter-spacing: .08em; text-transform: uppercase; color: var(--accent-text, var(--heading)); margin-bottom: var(--space-1); }
+.stack > * + * { margin-top: var(--space-2); }
+.muted { color: var(--muted); }
+
+/* ---- Card ---- */
+main.deck { position: relative; }
+.card {
+  position: relative;
+  background: var(--bg);
+  color: var(--fg);
+  padding: var(--card-pad) 0;
+  display: flex; align-items: center;
+}
+.card .wrap { width: 100%; max-width: var(--content-max); margin: 0 auto; padding: 0 var(--gutter); }
+.card .wrap > * + * { margin-top: var(--space-2); }
+.card.dark { color: var(--on-dark); background: var(--dark-field); background-image: var(--depth-field); background-color: var(--dark-field); }
+.card.dark h1, .card.dark h2, .card.dark h3 { color: var(--on-dark); }
+.card.dark .kicker { color: var(--on-dark-accent); }
+.card.dark .muted, .card.dark .note, .card.dark .src, .card.dark .muted-on-dark { color: var(--on-dark); opacity: .78; }
+.card.dark a { color: var(--on-dark-accent); }
+.card.dark::after {                     /* the trim frame: gold at low opacity, inset ~1.5% */
+  content: ""; position: absolute; inset: 1.5%; pointer-events: none;
+  border: 1px solid var(--trim, color-mix(in srgb, var(--accent) 28%, transparent));
+  box-shadow: inset 0 0 0 1px var(--trim-inner, rgba(255,255,255,.06));
+  border-radius: calc(var(--radius) / 2);
+}
+.card.title .kicker { margin-bottom: var(--space-3); }
+.card.anchor .wrap { text-align: left; }
+.big-number {
+  font-family: var(--font-display); font-weight: var(--w-display); letter-spacing: var(--track-display);
+  font-size: clamp(3rem, 12vw, 9rem); line-height: 1; color: var(--on-dark-accent);
+  font-variant-numeric: tabular-nums;
+}
+.card.close .kicker { margin-bottom: var(--space-2); }
+.card.divider { min-height: 0; }
+.card.divider .tag { font-size: var(--fs-small); font-weight: var(--w-emph); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.card.divider .big { font-family: var(--font-display); font-weight: var(--w-display); font-size: clamp(2rem, 6vw, 4rem); line-height: 1; color: var(--heading); }
+
+/* grids and tiles */
+.grid { display: grid; gap: var(--space-2); }
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.cell, .tile, .box {
+  background: var(--surface-tile, color-mix(in srgb, var(--fg) 4%, var(--bg)));
+  border: 1px solid var(--rule); border-radius: var(--radius); padding: var(--space-3);
+}
+.cell > * + *, .tile > * + *, .box > * + * { margin-top: var(--space-1); }
+.tile .big, .stat .big { font-family: var(--font-mono); font-weight: var(--w-display); font-size: clamp(1.7rem, 3.6vw, 2.8rem); line-height: 1.05; color: var(--heading); font-variant-numeric: tabular-nums; }
+.card.dark .tile .big { color: var(--on-dark-accent); }
+.aside { border-left: 3px solid var(--accent); padding: var(--space-1) var(--space-2); background: var(--surface-tile, color-mix(in srgb, var(--fg) 4%, var(--bg))); border-radius: 0 var(--radius) var(--radius) 0; }
+ul.check { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-1); max-width: 70ch; }
+ul.check li { display: grid; grid-template-columns: 22px minmax(0,1fr); gap: var(--space-1); align-items: start; padding: var(--space-1) var(--space-2); border: 1px solid var(--rule); border-radius: var(--radius); }
+ul.check li::before { content: ""; width: 14px; height: 14px; margin-top: .35em; border: 2px solid var(--accent); border-radius: 4px; }
+
+/* tables */
+.tblwrap { overflow-x: auto; max-width: 100%; }
+table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+th { text-align: left; font-size: var(--fs-small); font-weight: var(--w-emph); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: var(--space-1) var(--space-2); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: var(--space-1) var(--space-2); border-bottom: 1px solid var(--rule); vertical-align: top; }
+td.num, .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.key { font-weight: var(--w-emph); color: var(--heading); }
+td.no { color: var(--signal); font-weight: var(--w-emph); }
+
+/* charts: inline SVG sized to the card; colors come from the token block */
+.chart svg { width: 100%; height: auto; display: block; }
+.chart .series-1 { fill: var(--accent); }
+.chart .series-2 { fill: var(--heading); }
+.chart .axis { stroke: var(--rule); }
+.chart text { font-family: var(--font); fill: var(--muted); font-size: 12px; }
+
+/* appendix: dense allowed, marked as such */
+.appendix .card { align-items: flex-start; }
+.appendix .card p { max-width: 80ch; }
+.appendix td, .appendix th { font-size: var(--fs-small); }
+
+/* speaker notes: hidden unless ?notes */
+.notes { display: none; }
+html.show-notes .notes { display: block; margin-top: var(--space-3); padding-top: var(--space-2); border-top: 1px dashed var(--rule); font-size: var(--fs-small); color: var(--muted); }
+html.show-notes .notes::before { content: "Note: "; font-weight: var(--w-emph); }
+
+/* ---- Chrome: progress bar, counter, chevrons ---- */
+.progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: var(--accent); z-index: 30; transition: width .25s ease; }
+.hud { position: fixed; right: var(--gutter); bottom: calc(var(--gutter) + env(safe-area-inset-bottom, 0px)); z-index: 30; display: flex; gap: 6px; align-items: center; }
+.hud .counter { font-size: var(--fs-small); font-weight: var(--w-emph); color: var(--fg); background: color-mix(in srgb, var(--bg) 85%, transparent); border: 1px solid var(--rule); border-radius: 999px; padding: 4px 12px; font-variant-numeric: tabular-nums; }
+.hud button { font: inherit; font-weight: var(--w-emph); width: 36px; height: 36px; border-radius: 999px; border: 1px solid var(--rule); background: color-mix(in srgb, var(--bg) 85%, transparent); color: var(--fg); cursor: pointer; }
+.hud button:hover, .hud button:focus-visible { border-color: var(--accent); outline: none; }
+.hud button:disabled { opacity: .35; cursor: default; }
+
+/* ---- SLIDES mode (landscape) ---- */
+html.slides body { overflow: hidden; height: 100svh; }
+html.slides main.deck { height: 100svh; width: 100vw; position: relative; }
+html.slides .card { position: absolute; inset: 0; opacity: 0; visibility: hidden; transform: translateX(24px); transition: opacity .28s ease, transform .28s ease; overflow-y: auto; padding: var(--card-pad) 0; }
+html.slides .card.is-active { opacity: 1; visibility: visible; transform: none; }
+html.slides .card.was-active { transform: translateX(-24px); }
+html.slides .card .wrap { padding-left: max(var(--gutter), 4vw); padding-right: max(var(--gutter), 4vw); }
+html.slides .card.dark::after { inset: 12px; }
+html.slides .appendix { display: contents; }
+
+/* ---- SCROLL mode (portrait) ---- */
+html.scroll body { padding: var(--gutter) var(--gutter) calc(var(--space-8) + env(safe-area-inset-bottom, 0px)); }
+html.scroll main.deck { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gutter); max-width: 1220px; margin: 0 auto; }
+html.scroll .card, html.scroll .card .wrap, html.scroll .card .wrap > * { min-width: 0; max-width: 100%; }
+html.scroll .grid > *, html.scroll .tblwrap { min-width: 0; }
+html.scroll .card { border-radius: var(--radius); border: 1px solid var(--rule); min-height: 0; scroll-margin-top: var(--gutter); }
+html.scroll .card .wrap { padding: 0 var(--gutter); }
+html.scroll .grid-3, html.scroll .grid-4 { grid-template-columns: 1fr; }
+html.scroll .grid-2 { grid-template-columns: 1fr; }
+@media (min-width: 600px) { html.scroll .grid-2, html.scroll .grid-4 { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+html.scroll .hud button { display: none; }
+html.scroll .progress { display: none; }
+html.scroll .appendix { display: contents; }
+
+@media (prefers-reduced-motion: reduce) { html.slides .card { transition: none; } .progress { transition: none; } }
+
+/* ---- PRINT: one card per page (Letter and A4 both fit the 16:10 box) ---- */
+@media print {
+  @page { size: letter landscape; margin: 0.4in; }
+  html, body { background: #fff !important; height: auto !important; overflow: visible !important; padding: 0 !important; }
+  .progress, .hud { display: none !important; }
+  main.deck { display: block !important; height: auto !important; }
+  html.scroll .card, html.slides .card, .card {
+          position: static !important; opacity: 1 !important; visibility: visible !important; transform: none !important;
+          break-after: page; page-break-after: always; break-inside: avoid; min-height: 7.5in; border: 0 !important; border-radius: 0 !important;
+          padding: 0.3in 0.1in !important; overflow: visible !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .card:last-child { break-after: auto; page-break-after: auto; }
+  html.scroll .card .wrap { padding: 0 0.3in; }
+  .appendix { display: contents; }
+  a { text-decoration: none; }
+  html.show-notes .notes { display: block; }
+}
+/* carousel render: a fixed square or 4:5 stage, one card at a time (scripts/render_carousel.py sets html.stage) */
+html.stage body { overflow: hidden; }
+html.stage .card { position: fixed; inset: 0; border-radius: 0; }
+html.stage .hud, html.stage .progress { display: none; }
+html.stage .card .wrap { zoom: 1.3; }            /* a social square is read at thumb distance: bigger type, fewer columns */
+html.stage .grid-3, html.stage .grid-4 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+html.stage .grid-3 > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+</style>
+</head>
+<body>
+
+<div class="progress" aria-hidden="true"></div>
+
+<main class="deck" id="deck" data-token-set="wyatt-sparks-1.4.1">
+<!-- == CARDS:BEGIN == -->
+<section class="card title dark" data-notes="SmashQueue solves a real problem, and a growing field is already working on it.">
+  <div class="wrap">
+    <p class="kicker">SmashQueue market read · October 2026</p>
+    <h1>SmashQueue solves a real problem. Others have noticed it too.</h1>
+    <p class="lead">A growing field of tools already runs open-play queues, and three of them have made the most progress.</p>
+  </div>
+</section>
+
+<section class="card clusters" data-notes="The math from every US court down to the venues likely to buy.">
+  <div class="wrap">
+    <p class="kicker">The market and the math</p>
+    <h2>82,613 courts narrow to a few thousand likely buyers.</h2>
+    <div class="grid grid-4">
+      <div class="tile"><div class="big">82,613</div><div class="lbl">US courts</div><div class="src">USA Pickleball, year-end 2025</div></div>
+      <div class="tile"><div class="big">18,258</div><div class="lbl">US places to play</div><div class="src">About 4.5 courts each</div></div>
+      <div class="tile"><div class="big">~9,000</div><div class="lbl">after free public courts come out</div><div class="src">Ohio's split, 49.7% free, applied nationally</div></div>
+      <div class="tile"><div class="big">1,800 to 3,700</div><div class="lbl">likely buyers</div><div class="src">20% to 40% run organized open play</div></div>
+    </div>
+    <p class="note">US only. The first three numbers are sourced. The 20% to 40% is my assumption for any product like this one, ours or a competitor's. Nobody has counted it.</p>
+  </div>
+</section>
+
+<section class="card statement" data-notes="The hurdle the research has to clear before this goes further.">
+  <div class="wrap">
+    <p class="kicker">The hurdle</p>
+    <h2>$480K a year is the line: 400 clubs paying $100 a month.</h2>
+    <p class="lead">That is 11% to 22% of likely buyers, reached with one sales hire at most and no service staff. If I can't write a strategy that clears it, the idea stops here.</p>
+    <p class="note">400 clubs x $100 x 12 months. At $100 a month, a 12-month payback leaves about $950 to win each club (my estimate).</p>
+  </div>
+</section>
+
+<section class="card clusters" data-notes="The three competitors with the most progress, side by side.">
+  <div class="wrap">
+    <p class="kicker">Who is already there</p>
+    <h2>Three tools already run the queue.</h2>
+    <div class="grid grid-3">
+      <div class="cell"><p class="kicker">Free and fast</p><h3>PickleQ</h3>
+        <ul class="check">
+          <li>Launched January 2026</li>
+          <li>16,000+ clubs created, worldwide, self-reported</li>
+          <li>Free to 4 courts. Paid tier price unpublished</li>
+          <li>Self-serve signup, no hardware</li>
+          <li>Reports matches into DUPR</li>
+          <li>Funding and team: none found</li>
+        </ul></div>
+      <div class="cell"><p class="kicker">Funded and upmarket</p><h3>PodPlay</h3>
+        <ul class="check">
+          <li>In market since at least 2023</li>
+          <li>200+ locations, 1M users</li>
+          <li>$30 to $350 per court a month (third-party figure)</li>
+          <li>Sold with court hardware</li>
+          <li>Exclusive with Pickleball Kingdom</li>
+          <li>$8M raised. Team size unpublished</li>
+        </ul></div>
+      <div class="cell"><p class="kicker">One developer</p><h3>PaddleStack</h3>
+        <ul class="check">
+          <li>Launch date unclear</li>
+          <li>11 App Store ratings, 100+ Android installs</li>
+          <li>Free for players. Venue price unpublished</li>
+          <li>Self-serve, no hardware</li>
+          <li>No league or rating ties found</li>
+          <li>No funding found. Team of one</li>
+        </ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="card table" data-notes="How far ahead each one is, and which relationships are already taken.">
+  <div class="wrap">
+    <p class="kicker">The head start</p>
+    <h2>The relationships that open doors are mostly spoken for.</h2>
+    <div class="tblwrap"><table>
+      <thead><tr><th>Product</th><th>In market</th><th>Relationship already made</th></tr></thead>
+      <tbody>
+        <tr><td class="key">CourtReserve</td><td>Established</td><td>2,300+ facilities worldwide. Dill Dinkers runs every club on it</td></tr>
+        <tr><td class="key">PodPlay</td><td>Since at least 2023</td><td>Exclusive with Pickleball Kingdom</td></tr>
+        <tr><td class="key">Playbypoint</td><td>Established</td><td>Runs The Picklr's clubs</td></tr>
+        <tr><td class="key">PickleQ</td><td>9 months</td><td>DUPR match reporting, featured by DUPR in August 2026</td></tr>
+        <tr><td class="key">SmashQueue</td><td>Pilot stage</td><td>About ten Columbus venue conversations</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">PickleQ reached its numbers in nine months with self-serve signup. This space moves fast.</p>
+  </div>
+</section>
+
+<section class="card clusters" data-notes="Who holds the buyer pool today and the space that is still open.">
+  <div class="wrap">
+    <p class="kicker">What is left</p>
+    <h2>The open space is venues with 5+ courts and no club software.</h2>
+    <div class="grid grid-3">
+      <div class="cell"><p class="kicker">01</p><h3>Clubs on a platform</h3><p>Most paying clubs already run CourtReserve, PodPlay or Playbypoint. A queue is one release away for each of them, and PodPlay has shipped it.</p></div>
+      <div class="cell"><p class="kicker">02</p><h3>Small groups</h3><p>PickleQ is free up to 4 courts, so the smallest organizers have no reason to pay.</p></div>
+      <div class="cell"><p class="kicker">03</p><h3>What is open</h3><p>Rec centers, municipal complexes and independents with 5+ courts. More builders are arriving here too: SliceWin, Racketa and Court10 show up on Reddit, unverified.</p></div>
+    </div>
+    <p class="note">Platform counts are worldwide and include tennis, so they do not subtract cleanly from the US buyer pool.</p>
+  </div>
+</section>
+
+<section class="card clusters" data-notes="Why venues said yes in a demo without ever having looked for a fix.">
+  <div class="wrap">
+    <p class="kicker">Why venues said yes anyway</p>
+    <h2>Interest in a demo is not the same as a search for a fix.</h2>
+    <div class="grid grid-3">
+      <div class="cell"><p class="kicker">01</p><h3>The rack is free</h3><p>A paddle rack costs under $50 and players enforce it themselves. One Oregon parks board saw no pattern of complaints.</p></div>
+      <div class="cell"><p class="kicker">02</p><h3>Nobody is shopping</h3><p>Players on Reddit describe a rack, a 12-minute timer, or "one dude at our local court moving things along." They also resent apps that move features behind a paywall.</p></div>
+      <div class="cell"><p class="kicker">03</p><h3>A yes costs nothing</h3><p>About ten venues were interested. As far as I know, none has been asked to pay yet.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="card close dark" data-notes="The one action: a 90-day test with two proofs.">
+  <div class="wrap">
+    <p class="kicker">What happens now</p>
+    <h2>Run a 90-day test before anyone commits more.</h2>
+    <p class="lead">One conversation with CourtReserve's partner program, and two Columbus pilots asked to pay. If neither moves, we have the answer and have spent very little.</p>
+  </div>
+</section>
+
+<section class="card divider appendix-start" data-notes="Appendix: the full grid behind the competitor cards.">
+  <div class="wrap"><p class="tag">Appendix</p><p class="big">The full grid</p></div>
+</section>
+<div class="appendix">
+<section class="card table" data-notes="Commercial model for every product found.">
+  <div class="wrap">
+    <h2>How each one charges and sells</h2>
+    <div class="tblwrap"><table>
+      <thead><tr><th>Product</th><th>Price</th><th>Free tier</th><th>Self-serve</th><th>Hardware</th><th>How it sells</th><th>Est. revenue</th></tr></thead>
+      <tbody>
+        <tr><td class="key">PickleQ</td><td>Paid tier for 5+ courts, price unpublished</td><td>Yes, to 4 courts</td><td>Yes</td><td>No</td><td>Signup on the site</td><td>Unknown</td></tr>
+        <tr><td class="key">PodPlay</td><td>$30 to $350 per court a month (third-party)</td><td>Listed by one directory</td><td>Not checked</td><td>Yes</td><td>With hardware install</td><td>$0.6M to $6.7M, low confidence</td></tr>
+        <tr><td class="key">CourtReserve</td><td>$159 to $549 a month</td><td>No</td><td>Not checked</td><td>No</td><td>Not checked</td><td>$4.4M to $15.2M worldwide, list price</td></tr>
+        <tr><td class="key">Playbypoint</td><td>$199 to $599 a month, TV module $50 once</td><td>No</td><td>Not checked</td><td>No</td><td>Not checked</td><td>Not estimated</td></tr>
+        <tr><td class="key">PaddleStack</td><td>Free for players, venue price unpublished</td><td>Yes</td><td>Yes</td><td>No</td><td>App stores</td><td>Near zero</td></tr>
+        <tr><td class="key">PB Queue</td><td>$9.99 once</td><td>Yes, 2 courts</td><td>Yes</td><td>No</td><td>App Store</td><td>Near zero</td></tr>
+        <tr><td class="key">NextUp</td><td>Free plan, in beta</td><td>Yes</td><td>Waitlist</td><td>No</td><td>Not launched</td><td>None</td></tr>
+        <tr><td class="key">CourtControl</td><td>Free, open source</td><td>Yes</td><td>Yes</td><td>No</td><td>Self-hosted</td><td>None</td></tr>
+        <tr><td class="key">SmashQueue</td><td>Free to pilot, no price shown</td><td>Pilot</td><td>Not yet</td><td>No</td><td>Founder demos</td><td>None</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">Revenue estimates are locations times list price. PodPlay assumes 8 courts per location. US-only counts are not published for any of these.</p>
+  </div>
+</section>
+<section class="card table" data-notes="Standing of every product found: backing, ties, traction, age.">
+  <div class="wrap">
+    <h2>Where each one stands</h2>
+    <div class="tblwrap"><table>
+      <thead><tr><th>Product</th><th>Funding</th><th>Team</th><th>Standalone or feature</th><th>Backed by</th><th>Org ties</th><th>Clubs and users</th><th>Launched</th></tr></thead>
+      <tbody>
+        <tr><td class="key">PickleQ</td><td>None found</td><td>Unknown</td><td>Standalone</td><td>Independent, as far as found</td><td>DUPR Mode, DUPR feature</td><td>16,000+ clubs created, worldwide, self-reported</td><td>Jan 2026</td></tr>
+        <tr><td class="key">PodPlay</td><td>$8M, Oct 2025</td><td>Unpublished</td><td>Feature of a platform</td><td>Venture-backed</td><td>Pickleball Kingdom exclusive</td><td>200+ locations, 1M users</td><td>By 2023</td></tr>
+        <tr><td class="key">CourtReserve</td><td>$54M, Oct 2025</td><td>Unpublished</td><td>Platform, no queue found</td><td>Mainsail Partners</td><td>Dill Dinkers</td><td>2,300+ facilities, 6M players, worldwide</td><td>Not checked</td></tr>
+        <tr><td class="key">Playbypoint</td><td>Seed, 2025</td><td>Unpublished</td><td>Platform, queue unconfirmed</td><td>Venture-backed</td><td>The Picklr</td><td>Not published</td><td>Not checked</td></tr>
+        <tr><td class="key">PaddleStack</td><td>None found</td><td>One developer</td><td>Standalone</td><td>Independent</td><td>None found</td><td>11 ratings, 100+ installs</td><td>Unclear</td></tr>
+        <tr><td class="key">PB Queue</td><td>None found</td><td>Unknown</td><td>Standalone</td><td>Independent</td><td>None found</td><td>Not published</td><td>Not checked</td></tr>
+        <tr><td class="key">NextUp</td><td>None found</td><td>Unknown</td><td>Standalone</td><td>Independent</td><td>None found</td><td>200+ on waitlist</td><td>Not yet</td></tr>
+        <tr><td class="key">SmashQueue</td><td>None</td><td>One founder</td><td>Standalone</td><td>Independent</td><td>None yet</td><td>About ten venue conversations</td><td>Pilot</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">Seen on Reddit and not yet verified: OpenCourt, PlayTime Scheduler, TeamReach, Reclub, SliceWin, Racketa, Court10, JoinMatchpoint. Independent reviews exist only for CourtReserve (4.7 of 5, 53 Capterra reviews).</p>
+  </div>
+</section>
+</div>
+<!-- == CARDS:END == -->
+</main>
+
+<div class="hud" aria-label="Deck controls">
+  <button type="button" id="prev" aria-label="Previous card">&larr;</button>
+  <span class="counter" aria-live="polite"><span id="cur">1</span> / <span id="tot">1</span></span>
+  <button type="button" id="next" aria-label="Next card">&rarr;</button>
+</div>
+
+<script>
+(function () {
+  var doc = document.documentElement;
+  var q = new URLSearchParams(location.search);
+  var cards = Array.prototype.slice.call(document.querySelectorAll('main.deck section.card'));
+  var n = cards.length, cur = 0;
+  var bar = document.querySelector('.progress'), curEl = document.getElementById('cur'), totEl = document.getElementById('tot');
+  var prev = document.getElementById('prev'), next = document.getElementById('next');
+  totEl.textContent = n;
+
+  /* speaker notes: ?notes shows each card's one-line argument under it */
+  if (q.has('notes')) {
+    doc.classList.add('show-notes');
+    cards.forEach(function (c) {
+      var t = c.getAttribute('data-notes'); if (!t) return;
+      var p = document.createElement('p'); p.className = 'notes'; p.textContent = t;
+      (c.querySelector('.wrap') || c).appendChild(p);
+    });
+  }
+
+  /* mode: landscape = slides, portrait = scroll; ?mode= forces one; scripts use ?mode=stage */
+  var forced = q.get('mode');
+  function pickMode() {
+    if (forced === 'stage') return 'stage';
+    if (forced === 'slides' || forced === 'scroll') return forced;
+    return (window.innerWidth > window.innerHeight) ? 'slides' : 'scroll';
+  }
+  var mode = null;
+  function applyMode() {
+    var m = pickMode(); if (m === mode) return; mode = m;
+    doc.classList.remove('slides', 'scroll', 'stage'); doc.classList.add(m === 'stage' ? 'stage' : m);
+    if (m === 'stage') doc.classList.add('slides');
+    show(cur, true);
+  }
+
+  function hashIndex() { var h = parseInt((location.hash || '').replace('#', ''), 10); return (h >= 1 && h <= n) ? h - 1 : 0; }
+  function paint(i) {
+    curEl.textContent = i + 1;
+    if (bar) bar.style.width = ((i + 1) / n * 100) + '%';
+    prev.disabled = i === 0; next.disabled = i === n - 1;
+  }
+  function show(i, silent) {
+    i = Math.max(0, Math.min(n - 1, i));
+    if (mode === 'slides' || mode === 'stage') {
+      cards.forEach(function (c, k) { c.classList.toggle('is-active', k === i); c.classList.toggle('was-active', k < i); if (k === i) c.scrollTop = 0; });
+    } else if (!silent) {
+      cards[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    cur = i; paint(i);
+    if (history.replaceState) history.replaceState(null, '', '#' + (i + 1));
+  }
+  function go(d) { show(cur + d); }
+
+  prev.addEventListener('click', function () { go(-1); });
+  next.addEventListener('click', function () { go(1); });
+  document.addEventListener('keydown', function (e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(-1); }
+    if (e.key === 'Home') { e.preventDefault(); show(0); }
+    if (e.key === 'End') { e.preventDefault(); show(n - 1); }
+  });
+  var tx = null, ty = null;
+  document.addEventListener('touchstart', function (e) { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+  document.addEventListener('touchend', function (e) {
+    if (tx === null || mode !== 'slides') return;
+    var dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty; tx = ty = null;
+    if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.5) go(dx < 0 ? 1 : -1);
+  }, { passive: true });
+
+  /* scroll mode: the counter follows the card nearest the top third of the screen */
+  var t; window.addEventListener('scroll', function () {
+    if (mode !== 'scroll') return;
+    clearTimeout(t); t = setTimeout(function () {
+      var y = window.scrollY + window.innerHeight * 0.35, i = 0;
+      for (var k = 0; k < n; k++) { if (cards[k].offsetTop <= y) i = k; }
+      cur = i; paint(i); if (history.replaceState) history.replaceState(null, '', '#' + (i + 1));
+    }, 60);
+  }, { passive: true });
+  window.addEventListener('hashchange', function () { show(hashIndex()); });
+  window.addEventListener('resize', applyMode);
+
+  cur = hashIndex(); applyMode(); show(cur, false);
+})();
+</script>
+</body>
+</html>
